@@ -67,14 +67,12 @@ def testees_do_algoritimo(dadosExcel, algoritimo, separacao, *args):
 
 	return valoresFinais
  
-
 def gradiente(linha, pesos):
 	funcaoAtivacao = pesos[0]
 	for i in range(len(linha)-1):
 		funcaoAtivacao += pesos[i + 1] * linha[i]
 	return 1.0 if funcaoAtivacao >= 0.0 else 0.0
  
-# Estimate Perceptron pesos using stochastic gradient descent
 def treino_pesos(treino, taxa_aprendizagem, numero_epocas):
 	pesos = [0.0 for i in range(len(treino[0]))]
 	for epoca in range(numero_epocas):
@@ -85,8 +83,7 @@ def treino_pesos(treino, taxa_aprendizagem, numero_epocas):
 			for i in range(len(linha)-1):
 				pesos[i + 1] = pesos[i + 1] + taxa_aprendizagem * erro * linha[i]
 	return pesos
- 
-# Perceptron algoritimo With Stochastic Gradient Descent
+
 def perceptron(treino, teste, taxa_aprendizagem, numero_epocas):
 	calculo_gradientes = list()
 	pesos = treino_pesos(treino, taxa_aprendizagem, numero_epocas)
@@ -98,18 +95,19 @@ def perceptron(treino, teste, taxa_aprendizagem, numero_epocas):
 # Faz o teste do Algoritimo
 seed(1)
 
-arquivo = 'Valores.csv'
+arquivo = 'ValoresAtv.csv'
 dadosExcel = carregar_dados(arquivo)
 for i in range(len(dadosExcel[0])-1):
 	coluna_converte_para_float(dadosExcel, i)
 coluna_converte_para_inteiro(dadosExcel, len(dadosExcel[0])-1)
 
 # Dados
-separacao = 3
+separacao = 4
 taxa_aprendizagem = 0.01
-numero_epocas = 10
+numero_epocas = 1000
 
 valoresFinais = testees_do_algoritimo(dadosExcel, perceptron, separacao, taxa_aprendizagem, numero_epocas)
 
-print('Valores: %s' % valoresFinais)
-print('Precisao: %.2f%%' % (sum(valoresFinais)/float(len(valoresFinais))))
+print('Numero de Epocas: %s' %numero_epocas)
+print('Valores: %s' %valoresFinais)
+print('Precisao: %.2f%%' %(sum(valoresFinais)/float(len(valoresFinais))))
